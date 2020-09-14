@@ -12,15 +12,15 @@ import { NavLink } from 'react-router-dom'
 
 class Header extends Component {
 
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       isNavOpen: false
     }
     this.toggleNav = this.toggleNav.bind(this)
   }
 
-  toggleNav() {
+  toggleNav = () => {
     this.setState({
       isNavOpen: !this.state.isNavOpen
     })
@@ -28,7 +28,7 @@ class Header extends Component {
 
   render() {
     return (
-      <>
+      <React.Fragment>
         <Navbar dark expand='md'>
           <div className='container'>
             <NavbarToggler onClick={this.toggleNav} />
@@ -77,7 +77,7 @@ class Header extends Component {
             </div>
           </div>
         </Jumbotron>
-      </>
+      </React.Fragment>
     )
   }
 }
