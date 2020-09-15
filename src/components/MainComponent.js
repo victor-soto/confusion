@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Home from './HomeComponent'
+import About from './AboutComponent'
 import Menu from './MenuComponent'
 import Contact from './ContactComponent'
 import DishDetail from './DishdetailComponent'
@@ -13,8 +14,8 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 class Main extends Component {
 
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
 
     this.state = {
       dishes: DISHES,
@@ -52,6 +53,7 @@ class Main extends Component {
         <Header />
         <Switch>
           <Route path='/home' component={HomePage} />
+          <Route exact path='/about-us' component={() => <About leaders={this.state.leaders} />} />
           <Route exact path='/menu' component={() => <Menu dishes={this.state.dishes} />} />
           <Route path='/menu/:dishId' component={DishWithId} />
           <Route exact path='/contact-us' component={Contact} />
