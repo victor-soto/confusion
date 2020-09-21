@@ -67,12 +67,12 @@ class Contact extends Component {
     if (this.state.touched.firstname && firstname.length < 3)
       errors.firstname = 'First Name should be >= 3 characters'
     else if (this.state.touched.firstname && firstname.length >= 10)
-      errors.firstname = 'First Name should be <= 3 characters'
+      errors.firstname = 'First Name should be <= 10 characters'
 
     if (this.state.touched.lastname && lastname.length < 3)
       errors.lastname = 'Last Name should be >= 3 characters'
     else if (this.state.touched.lastname && lastname.length >= 10)
-      errors.lastname = 'Last Name should be <= 3 characters'
+      errors.lastname = 'Last Name should be <= 10 characters'
 
     const reg = /^\d+$/;
     if (this.state.touched.telnum && !reg.test(telnum))
@@ -149,8 +149,8 @@ class Contact extends Component {
                     name='firstname'
                     placeholder='First Name'
                     value={this.state.firstname}
-                    valid={!errors.firstname}
-                    invalid={errors.firstname}
+                    valid={errors.firstname === ''}
+                    invalid={errors.firstname !== ''}
                     onBlur={this.handleBlur('firstname')}
                     onChange={this.handleInputChange} />
                   <FormFeedback>{errors.firstname}</FormFeedback>
@@ -164,8 +164,8 @@ class Contact extends Component {
                     id='lastname'
                     name='lastname'
                     placeholder='Last Name'
-                    valid={!errors.lastname}
-                    invalid={errors.lastname}
+                    valid={errors.lastname === ''}
+                    invalid={errors.lastname !== ''}
                     value={this.state.lastname}
                     onBlur={this.handleBlur('lastname')}
                     onChange={this.handleInputChange} />
@@ -181,8 +181,8 @@ class Contact extends Component {
                     name='telnum'
                     placeholder='Tel. Number'
                     value={this.state.telnum}
-                    valid={!errors.telnum}
-                    invalid={errors.telnum}
+                    valid={errors.telnum === ''}
+                    invalid={errors.telnum !== ''}
                     onBlur={this.handleBlur('telnum')}
                     onChange={this.handleInputChange} />
                   <FormFeedback>{errors.telnum}</FormFeedback>
@@ -197,8 +197,8 @@ class Contact extends Component {
                     name='email'
                     placeholder='Email'
                     value={this.state.email}
-                    valid={!errors.email}
-                    invalid={errors.email}
+                    valid={!errors.email === ''}
+                    invalid={errors.email !== ''}
                     onBlur={this.handleBlur('email')}
                     onChange={this.handleInputChange} />
                   <FormFeedback>{errors.email}</FormFeedback>
