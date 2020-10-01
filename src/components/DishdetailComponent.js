@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Card,
   CardImg,
@@ -6,8 +6,19 @@ import {
   CardTitle,
   CardText,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Label
 } from 'reactstrap'
+import {
+  LocalForm,
+  Control,
+  Errors
+} from 'react-redux-form'
 import { Link } from 'react-router-dom'
 
 function RenderDish({ dish }) {
@@ -50,7 +61,20 @@ function RenderComments({ comments }) {
   )
 }
 
+const required = (val) => val && val.length
+const maxLength = (len) => (val) => !(val) || (val.length <= len)
+const minLength = (len) => (val) => (val) && (val.length >= len)
+
 const DishDetail = (props) => {
+
+  const { className } = props
+  const [modal, setModal] = useState(false)
+  const toggle = () => setModal(!modal)
+
+  const handleSubmit = (values) => {
+    console.log('Current state is: ', JSON.stringify(values))
+    alert('Current state is: ' + JSON.stringify(values))
+  }
 
   if (!props.dish) return <div></div>
 
@@ -58,7 +82,7 @@ const DishDetail = (props) => {
     <div className='container'>
       <div className='row'>
         <Breadcrumb>
-           <BreadcrumbItem>
+          <BreadcrumbItem>
             <Link to='/menu'>Menu</Link>
           </BreadcrumbItem>
           <BreadcrumbItem active>
@@ -76,8 +100,64 @@ const DishDetail = (props) => {
         </div>
         <div className='col-xs-12 col-sm-12 col-md-5 m-1'>
           <RenderComments comments={props.comments} />
+          <Button type='button' outline color='secondary' onClick={toggle}>
+            <span className='fa fa-pencil'></span> Submit Comment
+          </Button>
         </div>
       </div>
+      <Modal isOpen={modal} toggle={toggle} className={className}>
+        <LocalForm onSubmit={(values) => handleSubmit(values)}>
+          <ModalHeader toggle={toggle}>Submit Comment</ModalHeader>
+          <ModalBody>
+            <div className='form-group'>
+              <Label htmlFor='rating'>Rating</Label>
+              <Control.select
+                name='rating'
+                type='select'
+                model='.rating'
+                className='form-control'>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </Control.select>
+            </div>
+            <div className='form-group'>
+              <Label htmlFor='yourName'>Your Name</Label>
+              <Control.text
+                name='yourName'
+                model='.yourName'
+                type='text'
+                id='yourName'
+                className='form-control'
+                validators={{ required, minLength: minLength(3), maxLength: maxLength(15) }}
+                placeholder='Your Name' />
+              <Errors
+                className='text-danger'
+                model='.yourName'
+                show='touched'
+                messages={{
+                  required: 'Required',
+                  minLength: 'Must be greater than 2 characters',
+                  maxLength: 'Must be 15 characters or less'
+                }} />
+            </div>
+            <div className='form-group'>
+              <Label htmlFor='comment'>Comment</Label>
+              <Control.textarea
+                name='comment'
+                model='.comment'
+                id='comment'
+                className='form-control'
+                rows='6' />
+            </div>
+          </ModalBody>
+          <ModalFooter>
+            <Button type='submit' color="primary" className='mr-auto'>Submit</Button>
+          </ModalFooter>
+        </LocalForm>
+      </Modal>
     </div>
   );
 }
