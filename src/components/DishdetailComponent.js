@@ -74,6 +74,7 @@ const DishDetail = (props) => {
   const handleSubmit = (values) => {
     console.log('Current state is: ', JSON.stringify(values))
     alert('Current state is: ' + JSON.stringify(values))
+    toggle()
   }
 
   if (!props.dish) return <div></div>
